@@ -1,0 +1,72 @@
+<head>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+    <!-- https://github.com/vasturiano/force-graph -->
+    <script src="https://unpkg.com/force-graph"></script>
+    <!--<script src="../../dist/force-graph.js"></script>-->
+</head>
+
+<body>
+    <div id="graph"></div>
+
+    <script>
+        // @ts-check
+        // https://troubled-pain.surge.sh/mkt315.json
+        // /mkt315.json
+
+        const colors = ['#000000', '#AD102A', '#C41230', '#C41230'];
+
+        fetch('/mkt315.json', {
+            mode: 'no-cors',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                const Graph = ForceGraph()(document.getElementById('graph'))
+                    .graphData(data)
+                    .linkColor(() => '#EDECE2')
+                    .nodeId('id')
+                    .nodeLabel('id')
+                    .nodeColor('color')
+                    // .nodeAutoColorBy('color')
+                    .nodeCanvasObject((node, ctx, globalScale) => {
+                        const label = node.id;
+                        const fontSize = 22 / globalScale;
+                        ctx.font = `${fontSize}px Sans-Serif`;
+                        const textWidth = ctx.measureText(label).width;
+                        const bckgDimensions = [textWidth, fontSize].map((n) => n + fontSize * 0.2); // some padding
+
+                        ctx.fillStyle =
+                            node.group == 2 ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.8)';
+                        ctx.fillRect(
+                            node.x - bckgDimensions[0] / 2,
+                            node.y - bckgDimensions[1] / 2,
+                            ...bckgDimensions
+                        );
+
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+
+                        // node.color == '#AD102A' ? console.log() : null;
+                        ctx.fillStyle = colors[node.group - 1];
+                        ctx.fillText(label, node.x, node.y);
+
+                        node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+                    })
+                    .nodePointerAreaPaint((node, color, ctx) => {
+                        ctx.fillStyle = color;
+                        const bckgDimensions = node.__bckgDimensions;
+                        bckgDimensions &&
+                            ctx.fillRect(
+                                node.x - bckgDimensions[0] / 2,
+                                node.y - bckgDimensions[1] / 2,
+                                ...bckgDimensions
+                            );
+                    })
+                    .dagMode('radialout');
+                // .warmupTicks(1);
+            });
+    </script>
+</body>

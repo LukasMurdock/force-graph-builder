@@ -1,0 +1,84 @@
+{
+    "nodes": [
+        {
+            "id": "Value Creation",
+            "group": 1
+        },
+        {
+            "id": "Marketing",
+            "group": 2
+        },
+        {
+            "id": "Ethics",
+            "group": 2
+        },
+        {
+            "id": "Recruitment",
+            "group": 3
+        },
+        {
+            "id": "Management",
+            "group": 4
+        },
+        {
+            "id": "Sales",
+            "group": 4
+        },
+        {
+            "id": "Technology",
+            "group": 5
+        }
+    ],
+    "links": [
+        {
+            "source": "Value Creation",
+            "target": "Marketing",
+            "value": 10
+        },
+        {
+            "source": "Value Creation",
+            "target": "Recruitment",
+            "value": 10
+        },
+        {
+            "source": "Value Creation",
+            "target": "Management",
+            "value": 10
+        },
+        {
+            "source": "Value Creation",
+            "target": "Sales",
+            "value": 10
+        },
+        {
+            "source": "Value Creation",
+            "target": "Technology",
+            "value": 10
+        },
+        {
+            "source": "Ethics",
+            "target": "Marketing",
+            "value": 10
+        },
+        {
+            "source": "Ethics",
+            "target": "Management",
+            "value": 10
+        },
+        {
+            "source": "Ethics",
+            "target": "Sales",
+            "value": 10
+        },
+        {
+            "source": "Ethics",
+            "target": "Technology",
+            "value": 10
+        },
+        {
+            "source": "Ethics",
+            "target": "Recruitment",
+            "value": 10
+        }
+    ]
+}
