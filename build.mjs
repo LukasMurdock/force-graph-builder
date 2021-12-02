@@ -67,7 +67,7 @@ console.log('Depth 2: ' + (nodes[nodes.findIndex((e) => e.id === 'Marketing')].g
 console.log('Depth 2: ' + (nodes[nodes.findIndex((e) => e.id === 'Recruitment')].group === 2));
 console.log('Depth 3: ' + (nodes[nodes.findIndex((e) => e.id === 'Strategy')].group === 3));
 
-fs.writeFile('./deploy/mkt315.json', JSON.stringify(data), 'utf8', (err) => {
+fs.writeFile('./deploy/data/mkt315.json', JSON.stringify(data), 'utf8', (err) => {
     if (err) throw err;
     console.log('JSON file written');
 });
