@@ -17,7 +17,11 @@
         // https://troubled-pain.surge.sh/mkt315.json
         // /mkt315.json
 
-        const colors = ['#000000', '#2ba96e', '#0069e9', '#C41230'];
+        const highlightNodes = new Set();
+        const highlightLinks = new Set();
+        let hoverNode = null;
+
+        const colors = ['#C41230', '#2ba96e', '#0069e9', '#1D1D1D'];
 
         function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
             if (typeof stroke === 'undefined') {
@@ -58,12 +62,55 @@
         })
             .then((res) => res.json())
             .then((data) => {
+                data.links.forEach((link) => {
+                    const a = data.nodes.find((e) => e.id === link.source);
+                    const b = data.nodes.find((e) => e.id === link.target);
+                    !a.neighbors && (a.neighbors = []);
+                    !b.neighbors && (b.neighbors = []);
+                    a.neighbors.push(b);
+                    b.neighbors.push(a);
+
+                    !a.links && (a.links = []);
+                    !b.links && (b.links = []);
+                    a.links.push(link);
+                    b.links.push(link);
+                });
                 // https://github.com/vasturiano/react-force-graph/blob/master/example/text-nodes/index-2d.html
                 const Graph = ForceGraph()(document.getElementById('graph'))
                     .graphData(data)
+                    .dagMode(null)
+                    .dagLevelDistance(300)
+                    .onNodeHover((node) => {
+                        highlightNodes.clear();
+                        highlightLinks.clear();
+                        if (node) {
+                            highlightNodes.add(node);
+                            node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor));
+                            node.links.forEach((link) => highlightLinks.add(link));
+                        }
+
+                        hoverNode = node || null;
+                    })
+                    .onNodeDrag((node) => {
+                        highlightNodes.clear();
+                        highlightLinks.clear();
+                        if (node) {
+                            highlightNodes.add(node);
+                            node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor));
+                            node.links.forEach((link) => highlightLinks.add(link));
+                        }
+
+                        hoverNode = node || null;
+                    })
+                    .autoPauseRedraw(false) // keep redrawing after engine has stopped
+                    .linkWidth((link) => (highlightLinks.has(link) ? 5 : 1))
+                    .linkDirectionalParticles(4)
+                    .linkDirectionalParticleWidth((link) => (highlightLinks.has(link) ? 4 : 0))
                     .linkColor(() => '#EDECE2')
                     .nodeId('id')
                     .nodeLabel('id')
+                    .nodeRelSize(8)
+                    .nodeVal(25)
                     .nodeColor('color')
                     // .nodeAutoColorBy('color')
                     .nodeCanvasObject((node, ctx, globalScale) => {
@@ -111,8 +158,7 @@
                         //         true
                         //     );
                     })
-                    .zoom(6, 0)
-                    .dagMode('radialout');
+                    .zoom(4, 0);
 
                 // .zoomToFit(0, 10, (node) => true);
                 // .warmupTicks(1);

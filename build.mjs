@@ -21,6 +21,7 @@ const addNodes = (node, group) => {
             links.push({
                 source: node.id,
                 target: link.id,
+                value: link.value || 1,
             });
             if (link.Links) {
                 addNodes(link, group + 1);
