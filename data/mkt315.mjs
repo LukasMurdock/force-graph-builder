@@ -42,7 +42,7 @@ const Nodes = {
             value: 13,
             color: '#C41230',
             Links: [
-                { id: 'Time management', Links: [{ id: 'Capability' }] },
+                { id: 'Time-management', Links: [{ id: 'Capability' }] },
                 {
                     id: 'Communication',
                     Links: [{ id: 'Capability' }],
@@ -72,6 +72,7 @@ const Nodes = {
                     ],
                 },
                 { id: 'Strategy' },
+                { id: 'Building a brand' },
                 { id: 'Landing new business', Links: [{ id: 'Identifying new sales channels' }] },
                 { id: 'Retaining customers', Links: [{ id: 'Capability' }] },
                 { id: 'Identifying new sales channels' },
@@ -83,7 +84,10 @@ const Nodes = {
                 { id: 'Selling The Wheel', Links: [{ id: 'Capability' }] },
                 { id: 'The Accidental Salesperson', Links: [{ id: 'Capability' }] },
                 { id: 'Communication Skills', Links: [{ id: 'Capability' }] },
-                { id: 'Emotional Intelligence', Links: [{ id: 'Capability' }] },
+                {
+                    id: 'Emotional Intelligence',
+                    Links: [{ id: 'Capability' }, { id: 'Active Listening' }],
+                },
                 { id: 'Responsibility', Links: [{ id: 'Management' }] },
                 { id: 'Active Listening', Links: [{ id: 'Capability' }] },
                 { id: 'Prospecting Call' },
@@ -102,8 +106,14 @@ const Nodes = {
                 { id: 'Overcoming Objections', Links: [{ id: 'Capability' }] },
                 { id: 'Objection Handling', Links: [{ id: 'Capability' }] },
                 { id: 'Asking for Commitment', Links: [{ id: 'Capability' }] },
-                { id: 'Ownership', Links: [{ id: 'Management' }] },
-                { id: 'Negotiating', Links: [{ id: 'Capability' }] },
+                {
+                    id: 'Ownership',
+                    Links: [{ id: 'Management' }, { id: 'Time Management', value: 1 }],
+                },
+                {
+                    id: 'Negotiating',
+                    Links: [{ id: 'Capability' }, { id: 'Emotional Intelligence' }],
+                },
                 { id: 'Self-managing', Links: [{ id: 'Management' }] },
                 { id: 'Time-management', Links: [{ id: 'Management' }] },
                 { id: 'Rogue salespeople' },
